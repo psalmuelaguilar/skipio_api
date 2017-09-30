@@ -22,8 +22,8 @@ class Skipio
 
   def send_message
     uri = URI.parse("#{API_SERVER}/api/v2/messages?token=#{@token}")
-    recipients = "contact-be76b3f5-2c17-45bf-bda4-00bb49e6287a"
-    message = 'hello message'
+    recipients = @params[:recipients]
+    message = @params[:message]
     json_data = {
       "recipients": [
         recipients
