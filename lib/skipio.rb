@@ -22,17 +22,7 @@ class Skipio
 
   def send_message
     uri = URI.parse("#{API_SERVER}/api/v2/messages?token=#{@token}")
-    recipients = @params[:recipients]
-    message = @params[:message]
-    json_data = {
-      "recipients": [
-        recipients
-      ],
-      "message": {
-        "body": message
-      }
-    }
-
+    json_data = build_json_message_data
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' => 'application/json'})
@@ -45,5 +35,16 @@ class Skipio
     uri = Addressable::URI.new
     uri.query_values = request_parameters
     uri.query
+  end
+
+  def build_json_message_data
+    {
+      "recipients": [
+        @params[:recipients]
+      ],
+      "message": {
+        "body": @params[:message]
+      }
+    }
   end
 end
