@@ -26,7 +26,7 @@ class Skipio
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' => 'application/json'})
-    request.set_form_data({JSON.parse(json_data.to_json)})
+    request.set_form_data(JSON.parse(json_data.to_json))
     response = http.request(request)
     JSON.parse(response.body)
   end
