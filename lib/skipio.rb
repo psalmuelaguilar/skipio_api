@@ -19,6 +19,13 @@ class Skipio
     JSON.parse(response)
   end
 
+  # contact_id = Contact#id
+  def find_contact(contact_id)
+    url = "/v2/contacts/#{contact_id}"
+    response = process_by_url(url, :get)
+    JSON.parse(response)
+  end
+
   # params = { recipients: 'Comma Separated User UUID', message: 'body message' }
   def send_message(params = {})
     url = 'v2/messages'
