@@ -38,7 +38,7 @@ class Skipio
   end
   
   def by_url(action, url)
-    uri = URI.parse("#{API_SERVER}/api#{action}?token=#{@token}
+    uri = URI.parse("#{API_SERVER}/api#{action}?token=#{@token}")
     if action == :get
       # do get request
     end
