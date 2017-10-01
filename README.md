@@ -18,7 +18,7 @@ _Find Contact_
 
 _Send Message_
 
-`service.send_message(options) #=> options = { recipients: 'Comma Separated User UUID', message: 'body message' }`
+`service.send_message(options) # => { recipients: 'Comma Separated User UUID', message: 'body message' }`
 
 
 
