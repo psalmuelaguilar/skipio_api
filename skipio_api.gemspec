@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'skipio_api'
-  spec.version       = '0.0.5'
+  spec.version       = '0.0.6'
   spec.authors       = ['Psalmuel Aguilar']
   spec.email         = ['psalmuelaguilar@gmail.com']
   spec.summary       = 'Skipio Api'

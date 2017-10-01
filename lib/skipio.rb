@@ -29,7 +29,7 @@ class Skipio
   # params = { recipients: 'Comma Separated User UUID', message: 'body message' }
   def send_message(params = {})
     url = 'v2/messages'
-    json_data = build_json_message_data
+    json_data = build_json_message_data(params)
     options = { json: json_data }
     response = process_by_url(url, action, options)
     JSON.parse(response.body)
@@ -66,13 +66,13 @@ class Skipio
     http.request(request)
   end
 
-  def build_json_message_data
+  def build_json_message_data(params)
     {
       "recipients": [
-        @params[:recipients]
+        params[:recipients]
       ],
       "message": {
-        "body": @params[:message]
+        "body": params[:message]
       }
     }
   end
