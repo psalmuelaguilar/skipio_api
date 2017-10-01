@@ -9,25 +9,22 @@ class Skipio
 
   def initialize(options)
     @token = options[:token]
-    @params = options[:params]
   end
 
-  def contact_list
-    page_parameters = @params || { page: 1, per: 10 }
-    url = "#{API_SERVER}/api/v2/contacts?token=#{@token}&#{request_parameters(page_parameters)}"
-    uri = URI(url)
-    response = Net::HTTP.get(uri)
+  # params = { page: 1, per: 10 }
+  def contact_list(params = nil)
+    page_parameters = params || { page: 1, per: 10 }
+    url = 'v2/contacts'
+    response = process_by_url(url, :get, page_parameters)
     JSON.parse(response)
   end
 
-  def send_message
-    uri = URI.parse("#{API_SERVER}/api/v2/messages?token=#{@token}")
+  # params = { recipients: 'Comma Separated User UUID', message: 'body message' }
+  def send_message(params = {})
+    url = 'v2/messages'
     json_data = build_json_message_data
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' => 'application/json'})
-    request.set_form_data(JSON.parse(json_data.to_json))
-    response = http.request(request)
+    options = { json: json_data }
+    response = process_by_url(url, action, options)
     JSON.parse(response.body)
   end
 
@@ -36,12 +33,30 @@ class Skipio
     uri.query_values = request_parameters
     uri.query
   end
-  
-  def by_url(action, url)
-    uri = URI.parse("#{API_SERVER}/api#{action}?token=#{@token}")
+
+  # action = :get / :post / :put
+  # url = 'v1/contacts'
+  # options = { params: { Hash: parameters }, json: { Hash: json } }
+  def process_by_url(url, action, options = {})
+    uri = URI.parse("#{API_SERVER}/api/#{url}?token=#{@token}&#{options[:params]}")
     if action == :get
-      # do get request
+      response = Net::HTTP.get(uri)
+    elsif action == :post
+      json_data = options[:json].to_json
+      response = create_by_url(uri, json_data)
     end
+
+    response
+  end
+
+  private
+
+  def create_by_url(uri, json_data)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' => 'application/json'})
+    request.set_form_data(JSON.parse(json_data))
+    http.request(request)
   end
 
   def build_json_message_data
