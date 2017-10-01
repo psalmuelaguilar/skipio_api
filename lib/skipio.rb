@@ -36,6 +36,13 @@ class Skipio
     uri.query_values = request_parameters
     uri.query
   end
+  
+  def by_url(action, url)
+    uri = URI.parse("#{API_SERVER}/api#{action}?token=#{@token}
+    if action == :get
+      # do get request
+    end
+  end
 
   def build_json_message_data
     {
