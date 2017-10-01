@@ -31,7 +31,7 @@ class Skipio
     url = 'v2/messages'
     json_data = build_json_message_data(params)
     options = { json: json_data }
-    response = process_by_url(url, action, options)
+    response = process_by_url(url, :post, options)
     JSON.parse(response.body)
   end
 
