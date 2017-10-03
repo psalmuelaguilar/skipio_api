@@ -5,10 +5,9 @@ require "addressable/uri"
 require 'open-uri'
 
 class Skipio
-  API_SERVER = 'https://stage.skipio.com'
-
   def initialize(options)
     @token = options[:token]
+    @api_server = options[:api_server] || :dev
   end
 
   # params = { page: 1, per: 10 }
@@ -45,7 +44,7 @@ class Skipio
   # url = 'v1/contacts'
   # options = { params: { Hash: parameters }, json: { Hash: json } }
   def process_by_url(url, action, options = {})
-    uri = URI.parse("#{API_SERVER}/api/#{url}?token=#{@token}&#{options[:params]}")
+    uri = URI.parse("#{api_server}/api/#{url}?token=#{@token}&#{options[:params]}")
     if action == :get
       response = Net::HTTP.get(uri)
     elsif action == :post
@@ -54,6 +53,14 @@ class Skipio
     end
 
     response
+  end
+
+  def api_server
+    if @api_server == :prod
+      'https://app.skipio.com'
+    elsif :dev
+      'https://stage.skipio.com'
+    end
   end
 
   private

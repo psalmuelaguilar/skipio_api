@@ -7,20 +7,22 @@ A simple ruby wrapper for skipio api
 # *Usage*
 
 ```
-service = Skipio.new({ token: Rails.application.secrets.skipio_api, params: @options })
+service = Skipio.new({ token: Rails.application.secrets.skipio_api, params: @options, api_server: :dev })
+
+# api server defaults on dev
 ```
 
 # _Contact List_
 
 ```
-service.contact_list(options) # options = { page: 1, per: 10 } 
+service.contact_list(options) # options = { page: 1, per: 10 }
 ```
 
 # _Find Contact_
 
 ```
 service.find_contact(id) #=> contact_id
-``` 
+```
 
 # _Send Message_
 ```
